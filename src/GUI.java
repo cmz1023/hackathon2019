@@ -13,36 +13,40 @@ import javafx.stage.Stage;
 
 public class GUI extends Application
 {
+    // Weather labels
     Label weather_label = new Label();
     Label weather_conditions = new Label();
 
+    //Driveability labels
     Label driveability_label = new Label();
     Label drive_score = new Label();
 
+    //Outside labels
     Label outside_label = new Label();
     Label outside_score = new Label();
 
+    //Weather alerts labels and buttons
     Label alert_settings = new Label();
     CheckBox email = new CheckBox();
     CheckBox text = new CheckBox();
     CheckBox call = new CheckBox();
 
+    //Textfields for user input
     TextField enter_email = new TextField();
     TextField enter_phone_number = new TextField();
 
+    //Button to send user input to Twilio API to send weather alerts.
     Button data = new Button("Receive weather updates");
 
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-
+        // ------------------ Weather Labels and Boxes --------------------
         weather_label = new Label("Current weather conditions: ");
         weather_label.setFont(new Font("Times New Roman",15));
-        //Label weather_conditions = new Label();
 
         driveability_label = new Label("Driveability score based on weather conditions: ");
         driveability_label.setFont(new Font("Times New Roman",15));
-        //Label drive_score = new Label();
 
         outside_label = new Label("Score for outdoor activities based on weather conditions: ");
         outside_label.setFont(new Font("Times New Roman",15));
@@ -62,9 +66,12 @@ public class GUI extends Application
         text = new CheckBox("Texts");
         call = new CheckBox("Calls");
 
+        //User input text fields
         enter_email = new TextField("Enter email");
         enter_phone_number = new TextField("Enter phone number");
 
+
+        //Button to send user input to Twilio API
         data = new Button("Receive weather updates");
         data.setOnAction( new dataHandler() );
 
@@ -73,13 +80,16 @@ public class GUI extends Application
         VBox alerts = new VBox(10, alert_settings, emails, text, calls, data);
 
 
+
+        // --------------- Grid Declaration ------------------------
         GridPane grid = new GridPane();
         grid.add(weather, 0,0,1,1);
         grid.add(driveability,1,0,1,1);
         grid.add(outdoors,0,1,1,1);
         grid.add(alerts,1,1,1,1);
 
-        //grid.setGridLinesVisible(true);
+
+        // ------------------ Add borders to each cell --------------
         grid.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
@@ -115,12 +125,13 @@ public class GUI extends Application
                 "-fx-border-radius: 5;" +
                 "-fx-border-color: #000000;");
 
+
         grid.setPadding(new Insets(10));
         grid.setHgap(10);
         grid.setVgap(10);
 
 
-        Scene scene = new Scene( grid,800,400);
+        Scene scene = new Scene( grid,750,400);
         primaryStage.setScene( scene );
 
         primaryStage.show();
