@@ -10,8 +10,6 @@ import java.util.Vector;
 //^api key
 //text search: http://dataservice.accuweather.com/locations/v1/search
 //current conditions (GET): http://dataservice.accuweather.com/currentconditions/v1/07vMDheK0m6yvGnpXEpnqvkVZhyCFxo2
-
-
 public class GeicoWeatherAPI {
     public static void main(String[] args) throws Exception{
         String city = "State College";
@@ -27,27 +25,6 @@ public class GeicoWeatherAPI {
                 .asString();
 
         System.out.println(response.getBody());
-
-
-
-
-
-
-
-        /**
-        String city = "State College";
-        HttpResponse<JsonNode> response = Unirest.get("http://dataservice.accuweather.com/locations/v1/cities/search")
-                .queryString("apikey","07vMDheK0m6yvGnpXEpnqvkVZhyCFxo2")
-                .queryString(city,"q")
-                .asJson();
-        JSONObject obj = response.getBody().getObject();
-        System.out.println(obj.toString());
-        //String ans = obj.getString("");
-        //System.out.println(ans);
-        **/
-
-
-
     }
 }
 
