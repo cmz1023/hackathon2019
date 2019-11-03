@@ -21,6 +21,7 @@ import com.twilio.twiml.TwiMLException;
 public class GeicoWeatherAPI {
     public static void main(String[] args) throws Exception{
         //sendTextMessage("+14129999653","hi mom i sent this from my hackpsu project don't respond to this number lol");
+
         Vector<String> weatherData = collectWeatherData("State College");
     }
     public static Vector<String>  collectWeatherData(String city){
@@ -55,14 +56,86 @@ public class GeicoWeatherAPI {
         return vec;
     }
 
-    public static int calculateDrivability(){
+    public static double calculateDrivability(double actualTemp, int weather){
+        double tempVal;
+        Vector<Double> weatherVal = new Vector<>();
+        weatherVal.add(20.0);
+        weatherVal.add(30.0);
+        weatherVal.add(30.0);
+        weatherVal.add(40.0);
+        weatherVal.add(25.0);
+        weatherVal.add(35.0);
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(0.0);
+        weatherVal.add(0.0);
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(10.0);
+        weatherVal.add(15.0);
+        weatherVal.add(15.0);
+        weatherVal.add(10.0);
+        weatherVal.add(25.0);
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(15.0);
+        weatherVal.add(15.0);
+        weatherVal.add(0.0);
+        weatherVal.add(0.0);
+        weatherVal.add(40.0);
+        weatherVal.add(25.0);
+        weatherVal.add(40.0);
+        weatherVal.add(20.0);
+        weatherVal.add(5.0);
+        weatherVal.add(5.0);
+        weatherVal.add(10.0);
+        weatherVal.add(10.0);
 
-        return 0;
+        tempVal = ((68 - actualTemp)/68);
+        tempVal *= 20;
+        return (tempVal + weatherVal.elementAt(weather));
     }
 
-    public static int calculatePlayability(){
+    public static double calculatePlayability(double actualTemp, int weather){
+        double tempVal;
+        Vector<Double> weatherVal = new Vector<>();
+        tempVal = ((68 - actualTemp)/68);
+        tempVal *= 40;
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(30.0);
+        weatherVal.add(30.0);
+        weatherVal.add(25.0);
+        weatherVal.add(20.0);
+        weatherVal.add(20.0);
+        weatherVal.add(0.0);
+        weatherVal.add(0.0);
+        weatherVal.add(10.0);
+        weatherVal.add(0.0);
+        weatherVal.add(20.0);
+        weatherVal.add(5.0);
+        weatherVal.add(0.0);
+        weatherVal.add(10.0);
+        weatherVal.add(30.0);
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(40.0);
+        weatherVal.add(5.0);
+        weatherVal.add(5.0);
+        weatherVal.add(0.0);
+        weatherVal.add(0.0);
+        weatherVal.add(30.0);
+        weatherVal.add(5.0);
+        weatherVal.add(20.0);
+        weatherVal.add(5.0);
+        weatherVal.add(0.0);
+        weatherVal.add(0.0);
+        weatherVal.add(5.0);
+        weatherVal.add(5.0);
 
-        return 0;
+        return weatherVal.elementAt(weather) + tempVal;
     }
 
     public static void sendTextMessage(String phoneNumber, String text){
