@@ -187,6 +187,7 @@ public class GUI extends Application
         @Override
         public void handle(ActionEvent event)
         {
+            weatherData = new Vector<String>();
             weatherImageGrid.getChildren().clear();
             if (location_entry.getText().equals("")){
                 weatherData = GeicoWeatherAPI.collectWeatherData("State College");
@@ -215,10 +216,10 @@ public class GUI extends Application
             weatherImageGrid.add(weatherImageView, 0, 0 );
             //weatherImageGrid.setPadding(Insets(15));
             //actual temp, int weather
-            playScore = GeicoWeatherAPI.calculatePlayability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-3);
+            playScore = GeicoWeatherAPI.calculatePlayability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-4);
             playScoreLabel.setText(new Double(playScore).toString());
             //actual temp, int weather
-            driveability = GeicoWeatherAPI.calculateDrivability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-3);
+            driveability = GeicoWeatherAPI.calculateDrivability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-4);
             drive_score.setText(new Double(driveability).toString());
         }
     }

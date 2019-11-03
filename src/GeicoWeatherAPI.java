@@ -23,7 +23,6 @@ public class GeicoWeatherAPI {
     public static void main(String[] args) throws Exception{
         //sendTextMessage("+14129999653","hi mom i sent this from my hackpsu project don't respond to this number lol");
 
-        Vector<String> weatherData = collectWeatherData("State College");
     }
     public static Vector<String>  collectWeatherData(String city){
         final HttpResponse<JsonNode> stresponse = Unirest.get("http://dataservice.accuweather.com/locations/v1/search")
@@ -55,54 +54,42 @@ public class GeicoWeatherAPI {
         double tempVal;
         Vector<Double> weatherVal = new Vector<>();
 
-        weatherVal.add(20.0);
-        weatherVal.add(30.0);
-        weatherVal.add(30.0);
-        weatherVal.add(40.0);
+        weatherVal.add(50.0);
+        weatherVal.add(75.0);
+        weatherVal.add(75.0);
+        weatherVal.add(100.0);
+        weatherVal.add(87.5);
+        weatherVal.add(87.5);
+        weatherVal.add(100.0);
+        weatherVal.add(100.0);
+        weatherVal.add(0.0);
+        weatherVal.add(0.0);
+        weatherVal.add(100.0);
+        weatherVal.add(100.0);
         weatherVal.add(25.0);
-        weatherVal.add(35.0);
-        weatherVal.add(40.0);
-        weatherVal.add(40.0);
-        weatherVal.add(0.0);
-        weatherVal.add(0.0);
-        weatherVal.add(40.0);
-        weatherVal.add(40.0);
-        weatherVal.add(10.0);
-        weatherVal.add(15.0);
-        weatherVal.add(15.0);
-        weatherVal.add(10.0);
+        weatherVal.add(37.5);
+        weatherVal.add(37.5);
         weatherVal.add(25.0);
-        weatherVal.add(40.0);
-        weatherVal.add(40.0);
-        weatherVal.add(40.0);
-        weatherVal.add(15.0);
-        weatherVal.add(15.0);
+        weatherVal.add(62.5);
+        weatherVal.add(100.0);
+        weatherVal.add(100.0);
+        weatherVal.add(100.0);
+        weatherVal.add(37.5);
+        weatherVal.add(37.5);
         weatherVal.add(0.0);
         weatherVal.add(0.0);
-        weatherVal.add(40.0);
+        weatherVal.add(100.0);
+        weatherVal.add(62.5);
+        weatherVal.add(100.0);
+        weatherVal.add(50.0);
+        weatherVal.add(12.5);
+        weatherVal.add(12.5);
         weatherVal.add(25.0);
-        weatherVal.add(40.0);
-        weatherVal.add(20.0);
-        weatherVal.add(5.0);
-        weatherVal.add(5.0);
-        weatherVal.add(10.0);
-        weatherVal.add(10.0);
-        double x = new Double(weatherVal.elementAt(weather-4));
-        tempVal = actualTemp-30;
-        if (tempVal < 0){
-            tempVal = -tempVal;
-        }
-        tempVal = 30 - tempVal;
-        x *= (7/4);
-        int tot = 0;
-        if (isDayTime){
-            tot = (int) ((tempVal) + (x));
-        }else{
-            tot = (int) ((tempVal) + (x));
-        }
+        weatherVal.add(25.0);
 
-        System.out.println(new Double(weatherVal.elementAt(weather-4)).toString());
-        return (tot);
+        System.out.println(new Double(weatherVal.elementAt(weather)).toString());
+
+        return (weatherVal.elementAt(weather));
     }
 
     public static double calculatePlayability(double actualTemp, int weather){
@@ -140,18 +127,21 @@ public class GeicoWeatherAPI {
         weatherVal.add(0.0);
         weatherVal.add(5.0);
         weatherVal.add(5.0);
-        double x = new Double(weatherVal.elementAt(weather-4));
+        double x = new Double(weatherVal.elementAt(weather));
         tempVal = actualTemp-60;
         if (tempVal < 0){
             tempVal = -tempVal;
         }
         tempVal = 60 - tempVal;
-        x *= .75;
+        x *= .25;
+        if (tempVal < 0){
+            tempVal = -tempVal;
+        }
         int tot = 0;
         if (isDayTime){
-            tot = (int) ((tempVal) + (x));
+            tot = (int) ((tempVal) + (x))-15;
         }else{
-            tot = (int) ((tempVal) + (x/2));
+            tot = (int) ((tempVal) + (x))-15;
         }
         return (tot);
     }
@@ -164,7 +154,4 @@ public class GeicoWeatherAPI {
         System.out.println(message.getSid());
     }
 
-    public static void displayInformation(){
-
-    }
 }
