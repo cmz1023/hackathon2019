@@ -88,8 +88,11 @@ public class GeicoWeatherAPI {
         weatherVal.add(25.0);
 
         System.out.println(new Double(weatherVal.elementAt(weather)).toString());
-
-        return (weatherVal.elementAt(weather));
+        double tot = new Double(weatherVal.elementAt(weather).toString());
+        if (!isDayTime){
+            tot /= 1.5;
+        }
+        return (tot);
     }
 
     public static double calculatePlayability(double actualTemp, int weather){
@@ -142,6 +145,7 @@ public class GeicoWeatherAPI {
             tot = (int) ((tempVal) + (x))-15;
         }else{
             tot = (int) ((tempVal) + (x))-15;
+            tot/=2;
         }
         return (tot);
     }
