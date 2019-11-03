@@ -43,13 +43,13 @@ public class GUI extends Application
     {
         // ------------------ Weather Labels and Boxes --------------------
         weather_label = new Label("Current weather conditions: ");
-        weather_label.setFont(new Font("Times New Roman",15));
+        weather_label.setFont(new Font("Arial",15));
 
         driveability_label = new Label("Driveability score based on weather conditions: ");
-        driveability_label.setFont(new Font("Times New Roman",15));
+        driveability_label.setFont(new Font("Arial",15));
 
         outside_label = new Label("Score for outdoor activities based on weather conditions: ");
-        outside_label.setFont(new Font("Times New Roman",15));
+        outside_label.setFont(new Font("Arial",15));
 
         VBox weather = new VBox(100, weather_label, weather_conditions);
 
@@ -61,7 +61,7 @@ public class GUI extends Application
         // --------------------- Weather Updates ---------------------
 
         alert_settings = new Label("Please select a method to receive weather updates: ");
-        alert_settings.setFont(new Font("Times New Roman",15));
+        alert_settings.setFont(new Font("Arial",15));
         email = new CheckBox("Email");
         text = new CheckBox("Texts");
         call = new CheckBox("Calls");
@@ -102,28 +102,36 @@ public class GUI extends Application
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" +
-                "-fx-border-color: #000000;");
+                "-fx-border-color: #000000;"+
+                "-fx-background-radius: 5;" +
+                "-fx-background-color: #eb7100;");
 
         driveability.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" +
-                "-fx-border-color: #000000;");
+                "-fx-border-color: #000000;" +
+                "-fx-background-radius: 5;" +
+                "-fx-background-color: #2150bf;");
 
         outdoors.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" +
-                "-fx-border-color: #000000;");
+                "-fx-border-color: #000000;" +
+                "-fx-background-radius: 5;" +
+                "-fx-background-color: #1c6945;");
 
         alerts.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
                 "-fx-border-radius: 5;" +
-                "-fx-border-color: #000000;");
+                "-fx-border-color: #000000;" +
+                "-fx-background-radius: 5;" +
+                "-fx-background-color: #ed3263");
 
 
         grid.setPadding(new Insets(10));
@@ -131,7 +139,7 @@ public class GUI extends Application
         grid.setVgap(10);
 
 
-        Scene scene = new Scene( grid,750,400);
+        Scene scene = new Scene( grid,900,400);
         primaryStage.setScene( scene );
 
         primaryStage.show();
