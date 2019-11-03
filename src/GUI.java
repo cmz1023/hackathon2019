@@ -78,10 +78,11 @@ public class GUI extends Application
 
 
         VBox driveability = new VBox(10, driveability_label, drive_score);
+        driveability.setAlignment(Pos.TOP_CENTER);
 
         VBox outdoors = new VBox(10, outside_label, outside_score);
         VBox outdoorsTotal = new VBox(outdoors,playScoreLabel);
-
+        outdoorsTotal.setAlignment(Pos.TOP_CENTER);
         // --------------------- Weather Updates ---------------------
 
         alert_label = new Label("If you would like to receive weather updates via text, " +

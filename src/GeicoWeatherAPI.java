@@ -19,7 +19,7 @@ import com.twilio.twiml.MessagingResponse;
 import com.twilio.twiml.TwiMLException;
 
 public class GeicoWeatherAPI {
-    boolean isDayTime;
+    static boolean isDayTime;
     public static void main(String[] args) throws Exception{
         //sendTextMessage("+14129999653","hi mom i sent this from my hackpsu project don't respond to this number lol");
 
@@ -43,6 +43,11 @@ public class GeicoWeatherAPI {
         vec.add(response.getBody().getArray().getJSONObject(0).getJSONObject("Temperature").getJSONObject("Imperial").get("Value").toString());
         vec.add(response.getBody().getArray().getJSONObject(0).get("WeatherIcon").toString());
         vec.add(response.getBody().getArray().getJSONObject(0).get("IsDayTime").toString());
+        if (new Boolean(response.getBody().getArray().getJSONObject(0).get("IsDayTime").toString())){
+            isDayTime = true;
+        }else{
+            isDayTime = false;
+        }
         return vec;
     }
 
@@ -82,17 +87,22 @@ public class GeicoWeatherAPI {
         weatherVal.add(5.0);
         weatherVal.add(10.0);
         weatherVal.add(10.0);
-        double x = new Double(weatherVal.elementAt(weather-4)) *1.9;
-        tempVal = actualTemp-68;
+        double x = new Double(weatherVal.elementAt(weather-4));
+        tempVal = actualTemp-30;
         if (tempVal < 0){
             tempVal = -tempVal;
         }
-        tempVal = 68 - tempVal;
-        tempVal /= 3;
-        int tot = (int) ((tempVal) + (x));
+        tempVal = 30 - tempVal;
+        x *= (7/4);
+        int tot = 0;
+        if (isDayTime){
+            tot = (int) ((tempVal) + (x));
+        }else{
+            tot = (int) ((tempVal) + (x));
+        }
 
         System.out.println(new Double(weatherVal.elementAt(weather-4)).toString());
-        return ((tempVal) + (x));
+        return (tot);
     }
 
     public static double calculatePlayability(double actualTemp, int weather){
@@ -130,13 +140,20 @@ public class GeicoWeatherAPI {
         weatherVal.add(0.0);
         weatherVal.add(5.0);
         weatherVal.add(5.0);
-        tempVal = actualTemp-68;
+        double x = new Double(weatherVal.elementAt(weather-4));
+        tempVal = actualTemp-60;
         if (tempVal < 0){
             tempVal = -tempVal;
         }
-        tempVal = 68 - tempVal;
-        tempVal /=1.36;
-        return (weatherVal.elementAt(weather-4) + tempVal);
+        tempVal = 60 - tempVal;
+        x *= .75;
+        int tot = 0;
+        if (isDayTime){
+            tot = (int) ((tempVal) + (x));
+        }else{
+            tot = (int) ((tempVal) + (x/2));
+        }
+        return (tot);
     }
 
     public static void sendTextMessage(String phoneNumber, String text){
