@@ -10,11 +10,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.HBox;
 
 public class GUI extends Application
 {
+    Label location = new Label();
+    TextField location_entry = new TextField();
+    Button analyze = new Button();
+
     // Weather condition labels
     Label weather_label = new Label();
     Label weather_conditions = new Label();
@@ -54,10 +57,9 @@ public class GUI extends Application
 
         // --------------------- Weather Updates ---------------------
 
-        alert_label = new Label("If you would like to recieve weather updates via text, " +
+        alert_label = new Label("If you would like to receive weather updates via text, " +
                                     "\nenter your phone number and then click the button below.");
         alert_label.setFont(new Font("Arial",15));
-        alert_label.setTextFill( Color.web("#000000") );
         enter_phone_number = new TextField("");
 
         //Button to send user input to Twilio API
@@ -68,12 +70,21 @@ public class GUI extends Application
         HBox phone = new HBox(10, enter_phone_number);
         VBox alerts = new VBox(10, alert_label, phone, phone_number_data);
 
+        // -------------- Enter Location label and VBox ----------------
+
+        location = new Label("Show weather analytics in: ");
+        location.setFont(new Font("Arial",15));
+        analyze = new Button("Analyze");
+        HBox location_field =  new HBox(10, location, location_entry, analyze);
+        location_field.setAlignment(Pos.CENTER);
+
         // --------------- Grid Declaration ------------------------
         GridPane grid = new GridPane();
-        grid.add(weather, 0,0,1,1);
-        grid.add(driveability,1,0,1,1);
-        grid.add(outdoors,0,1,1,1);
-        grid.add(alerts,1,1,1,1);
+        grid.add(location_field, 0,0,1,1);
+        grid.add(weather, 0,1,1,1);
+        grid.add(driveability,1,1,1,1);
+        grid.add(outdoors,0,2,1,1);
+        grid.add(alerts,1,2,1,1);
         grid.setAlignment(Pos.CENTER);
 
         // ------------------ Add borders to each cell --------------
