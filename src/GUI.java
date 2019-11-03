@@ -11,6 +11,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class GUI extends Application
 {
@@ -21,6 +23,10 @@ public class GUI extends Application
     // Weather condition labels
     Label weather_label = new Label();
     Label weather_conditions = new Label();
+    //add weather image
+    Image weatherImage = new Image("http://s3.amazonaws.com/Summitsoft-Digital-Assets/websiteanimator/sun_469.png");
+    ImageView weatherImageView = new ImageView(weatherImage);
+
 
     //Driveability labels
     Label driveability_label = new Label();
@@ -48,7 +54,15 @@ public class GUI extends Application
         outside_label = new Label("Score for outdoor activities based on weather conditions: ");
         outside_label.setFont(new Font("Arial",15));
 
-        VBox weather = new VBox(100, weather_label, weather_conditions);
+        //create gridpane that includes ONLY the weather image for display
+        GridPane weatherImageGrid = new GridPane();
+        weatherImageView.setFitWidth( 125 );
+        weatherImageView.setPreserveRatio(true);
+        weatherImageGrid.add(weatherImageView, 0, 0 );
+
+        HBox hWeather = new HBox(100, weather_label, weatherImageGrid);
+        hWeather.setAlignment(Pos.TOP_RIGHT);
+        VBox vWeather = new VBox(100, hWeather, weather_conditions );
 
         VBox driveability = new VBox(100, driveability_label, drive_score);
 
@@ -81,7 +95,7 @@ public class GUI extends Application
         // --------------- Grid Declaration ------------------------
         GridPane grid = new GridPane();
         grid.add(location_field, 0,0,1,1);
-        grid.add(weather, 0,1,1,1);
+        grid.add(vWeather, 0,1,1,1);
         grid.add(driveability,1,1,1,1);
         grid.add(outdoors,0,2,1,1);
         grid.add(alerts,1,2,1,1);
@@ -91,7 +105,7 @@ public class GUI extends Application
         grid.setStyle("-fx-padding: 10;" +
                       "-fx-background-color: #dde8eb");
 
-        weather.setStyle("-fx-padding: 10;" +
+        vWeather.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
                 "-fx-border-width: 2;" +
                 "-fx-border-insets: 5;" +
