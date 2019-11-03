@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
@@ -209,12 +210,12 @@ public class GUI extends Application
             weatherImageView.setFitWidth(100);
             weatherImageView.setPreserveRatio(true);
             weatherImageGrid.add(weatherImageView, 0, 0 );
-            playScore = GeicoWeatherAPI.calculatePlayability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-4);
+            playScore = GeicoWeatherAPI.calculatePlayability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-3);
             playScoreLabel.setText(new Integer((int) playScore).toString());
-            driveability = GeicoWeatherAPI.calculateDrivability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-4);
+            driveability = GeicoWeatherAPI.calculateDrivability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-3);
             drive_score.setText(new Integer((int) driveability).toString());
-            drive_score.setFont(new Font("Arial", 25));
-            playScoreLabel.setFont(new Font("Arial", 25));
+            drive_score.setFont(new Font("Arial Bold", 25));
+            playScoreLabel.setFont(new Font("Arial Bold", 25));
             if (new Integer(drive_score.getText()) <= 33){
                 drive_score.setTextFill(Color.web("#b50c00"));
             }else if (new Integer(drive_score.getText()) <= 66){
