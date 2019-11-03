@@ -26,12 +26,10 @@ public class GeicoWeatherAPI {
                 .queryString("q",city)
                 .asJson();
         String v = stresponse.getBody().getArray().getJSONObject(0).get("Key").toString();
-        System.out.println(v);
         final HttpResponse<JsonNode> response = Unirest.get("http://dataservice.accuweather.com/currentconditions/v1/" + v)
                 .queryString("apikey","07vMDheK0m6yvGnpXEpnqvkVZhyCFxo2")
                 .queryString("details","true")
                 .asJson();
-        System.out.println(response.getBody());
         Vector<String> vec = new Vector<>();
         vec.add(response.getBody().getArray().getJSONObject(0).get("LocalObservationDateTime").toString()); //Time weather was checked
         vec.add(response.getBody().getArray().getJSONObject(0).get("WeatherText").toString()); //Weather outside (clear, raining, etc..)
@@ -83,7 +81,6 @@ public class GeicoWeatherAPI {
         weatherVal.add(25.0);
         weatherVal.add(25.0);
 
-        System.out.println(new Double(weatherVal.elementAt(weather)).toString());
         double tot = new Double(weatherVal.elementAt(weather).toString());
         if (!isDayTime){
             tot /= 1.5;
@@ -126,7 +123,7 @@ public class GeicoWeatherAPI {
         weatherVal.add(0.0);
         weatherVal.add(5.0);
         weatherVal.add(5.0);
-        double x = new Double(weatherVal.elementAt(weather));
+        double x = weatherVal.elementAt(weather);
         tempVal = actualTemp-60;
         if (tempVal < 0){
             tempVal = -tempVal;
@@ -151,7 +148,7 @@ public class GeicoWeatherAPI {
         String account_auth = "5a6e893472adfb128416ab51838d6eb2";
         Twilio.init(account_sid,account_auth);
         Message message = Message.creator(new com.twilio.type.PhoneNumber(phoneNumber), new com.twilio.type.PhoneNumber("+12014821986"), text).create();
-        System.out.println(message.getSid());
+        //System.out.println(message.getSid());
     }
 
 }

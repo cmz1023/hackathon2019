@@ -61,10 +61,10 @@ public class GUI extends Application
         weather_label = new Label("Current weather conditions: ");
         weather_label.setFont(new Font("Arial",15));
 
-        driveability_label = new Label("Driveability score based on weather conditions: ");
+        driveability_label = new Label("Driving Safety Score based on weather conditions: ");
         driveability_label.setFont(new Font("Arial",15));
 
-        outside_label = new Label("Score for outdoor activities based on weather conditions: ");
+        outside_label = new Label("Outdoor Comfort Score based on weather conditions: ");
         outside_label.setFont(new Font("Arial",15));
 
         analyze_button.setOnAction(new analyze_button_handler());
@@ -81,8 +81,10 @@ public class GUI extends Application
         VBox driveability = new VBox(10, driveability_label, drive_score);
         driveability.setAlignment(Pos.TOP_CENTER);
 
-        VBox outdoors = new VBox(10, outside_label, outside_score);
-        VBox outdoorsTotal = new VBox(outdoors,playScoreLabel);
+        VBox outdoors = new VBox(outside_label, outside_score);
+        outdoors.setAlignment(Pos.TOP_CENTER);
+        VBox outdoorsTotal = new VBox(-6,outdoors,playScoreLabel);
+        playScoreLabel.setAlignment(Pos.TOP_CENTER);
         outdoorsTotal.setAlignment(Pos.TOP_CENTER);
         // --------------------- Weather Updates ---------------------
 
@@ -91,8 +93,9 @@ public class GUI extends Application
         alert_label.setFont(new Font("Arial",15));
         enter_phone_number = new TextField("");
         //HBox emails = new HBox(10, email, email_checked, enter_email);
-        HBox phone = new HBox(10, enter_phone_number);
-        VBox alerts = new VBox(10, alert_label, phone, phone_number_data);
+        HBox phone = new HBox(10, enter_phone_number, phone_number_data);
+        phone.setAlignment(Pos.CENTER);
+        VBox alerts = new VBox(10, alert_label, phone);
 
         // -------------- Enter Location label and VBox ----------------
 
@@ -165,15 +168,44 @@ public class GUI extends Application
         @Override
         public void handle(ActionEvent event)
         {
+            String s;
+            try {
+                s = location_entry.getText() + "\n";
+                s += weather_label.getText() + "on \n";
+                s += timeLabel.getText().substring(0, 11) + "at " + timeLabel.getText().substring(11, timeLabel.getText().length()) + ":\n";
+                s += weatherLabel.getText() + "\n";
+                s += tempLabel.getText() + "\n";
+                s += "Driving Safety Score: " + drive_score.getText() + "\n";
+                s += "Outdoor Comfort Score: " + playScoreLabel.getText();
+            }catch(java.lang.StringIndexOutOfBoundsException e){
 
-            String s = weather_label.getText() + "\n";
-            s += weatherLabel.getText() + "\n";
-            s += timeLabel.getText() + "\n";
-            s += tempLabel.getText();
+                s = "State College" + "\n";
+                s += weather_label.getText() + "on \n";
+                s += timeLabel.getText().substring(0, 11) + "at " + timeLabel.getText().substring(11, timeLabel.getText().length()) + ":\n";
+                s += weatherLabel.getText() + "\n";
+                s += tempLabel.getText() + "\n";
+                s += "Driving Safety Score: " + drive_score.getText() + "\n";
+                s += "Outdoor Comfort Score: " + playScoreLabel.getText();
+            }
+            String phoneNumber = enter_phone_number.getText();
+            try {
+                if (phoneNumber.substring(0, 2).equals("+1")) {
+                    phoneNumber = phoneNumber.substring(2);
+                }
+                if (phoneNumber.substring(2, 3).equals("-")) {
+                    for (int i = 1; i < phoneNumber.length(); i++) {
+                        if (!Character.isLetter(phoneNumber.charAt(i))) {
+                            phoneNumber = phoneNumber.substring(0, i) + phoneNumber.substring(i, phoneNumber.length());
+                        }
+                    }
+                }
+            }catch(java.lang.StringIndexOutOfBoundsException e){
+                //
+            }
             if (enter_phone_number.getText().isEmpty()){
                 GeicoWeatherAPI.sendTextMessage("+14129999653",s);
             }else {
-                GeicoWeatherAPI.sendTextMessage("+1" + enter_phone_number.getText(), s.toString());
+                GeicoWeatherAPI.sendTextMessage("+1" + phoneNumber, s.toString());
             }
         }
     }
@@ -190,7 +222,6 @@ public class GUI extends Application
             }else {
                 weatherData = GeicoWeatherAPI.collectWeatherData(location_entry.getText());
             }
-            System.out.println(weatherData.elementAt(0).substring(0,10) + weatherData.elementAt(0).substring(12,17));
             if (new Boolean(weatherData.elementAt(4))){
                 timeLabel.setText(weatherData.elementAt(0).substring(0,10) + " " +  weatherData.elementAt(0).substring(12,16) + "PM");
             }else{
@@ -198,8 +229,14 @@ public class GUI extends Application
             }
             tempLabel.setText(weatherData.elementAt(2) + " F");
             weatherLabel.setText(weatherData.elementAt(1));
-
-            int num = new Integer(weatherData.elementAt(3));
+            int zx = new Integer(weatherData.elementAt(3));
+            if (zx > 8){
+                zx += 3;
+            }
+            if (zx > 26){
+                zx += 3;
+            }
+            int num = new Integer(zx);
             Image image;
             if (num < 10){
                 image = new Image("https://developer.accuweather.com/sites/default/files/0" + num + "-s.png");
@@ -210,9 +247,9 @@ public class GUI extends Application
             weatherImageView.setFitWidth(100);
             weatherImageView.setPreserveRatio(true);
             weatherImageGrid.add(weatherImageView, 0, 0 );
-            playScore = GeicoWeatherAPI.calculatePlayability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-3);
+            playScore = GeicoWeatherAPI.calculatePlayability(new Double(weatherData.elementAt(2)),zx);
             playScoreLabel.setText(new Integer((int) playScore).toString());
-            driveability = GeicoWeatherAPI.calculateDrivability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-3);
+            driveability = GeicoWeatherAPI.calculateDrivability(new Double(weatherData.elementAt(2)),zx);
             drive_score.setText(new Integer((int) driveability).toString());
             drive_score.setFont(new Font("Arial Bold", 25));
             playScoreLabel.setFont(new Font("Arial Bold", 25));
