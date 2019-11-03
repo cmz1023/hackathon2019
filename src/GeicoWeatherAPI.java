@@ -19,6 +19,7 @@ import com.twilio.twiml.MessagingResponse;
 import com.twilio.twiml.TwiMLException;
 
 public class GeicoWeatherAPI {
+    boolean isDayTime;
     public static void main(String[] args) throws Exception{
         //sendTextMessage("+14129999653","hi mom i sent this from my hackpsu project don't respond to this number lol");
 
@@ -41,24 +42,14 @@ public class GeicoWeatherAPI {
         vec.add(response.getBody().getArray().getJSONObject(0).get("WeatherText").toString()); //Weather outside (clear, raining, etc..)
         vec.add(response.getBody().getArray().getJSONObject(0).getJSONObject("Temperature").getJSONObject("Imperial").get("Value").toString());
         vec.add(response.getBody().getArray().getJSONObject(0).get("WeatherIcon").toString());
-        int num = new Integer(response.getBody().getArray().getJSONObject(0).get("WeatherIcon").toString());
-        Image image;
-        if (num < 10){
-            image = new Image("https://developer.accuweather.com/sites/default/files/0" + num + "-s.png");
-        }else{
-            image = new Image("https://developer.accuweather.com/sites/default/files/" + num + "-s.png");
-        }
-        ImageView imageView = new ImageView(image);
-        System.out.println("6");
-        for (String x : vec){
-            System.out.println(x);
-        }
+        vec.add(response.getBody().getArray().getJSONObject(0).get("IsDayTime").toString());
         return vec;
     }
 
     public static double calculateDrivability(double actualTemp, int weather){
         double tempVal;
         Vector<Double> weatherVal = new Vector<>();
+
         weatherVal.add(20.0);
         weatherVal.add(30.0);
         weatherVal.add(30.0);
@@ -91,17 +82,22 @@ public class GeicoWeatherAPI {
         weatherVal.add(5.0);
         weatherVal.add(10.0);
         weatherVal.add(10.0);
+        double x = new Double(weatherVal.elementAt(weather-4)) *1.9;
+        tempVal = actualTemp-68;
+        if (tempVal < 0){
+            tempVal = -tempVal;
+        }
+        tempVal = 68 - tempVal;
+        tempVal /= 3;
+        int tot = (int) ((tempVal) + (x));
 
-        tempVal = ((68 - actualTemp)/68);
-        tempVal *= 20;
-        return (tempVal + weatherVal.elementAt(weather));
+        System.out.println(new Double(weatherVal.elementAt(weather-4)).toString());
+        return ((tempVal) + (x));
     }
 
     public static double calculatePlayability(double actualTemp, int weather){
         double tempVal;
         Vector<Double> weatherVal = new Vector<>();
-        tempVal = ((68 - actualTemp)/68);
-        tempVal *= 40;
         weatherVal.add(40.0);
         weatherVal.add(40.0);
         weatherVal.add(40.0);
@@ -134,8 +130,13 @@ public class GeicoWeatherAPI {
         weatherVal.add(0.0);
         weatherVal.add(5.0);
         weatherVal.add(5.0);
-
-        return weatherVal.elementAt(weather) + tempVal;
+        tempVal = actualTemp-68;
+        if (tempVal < 0){
+            tempVal = -tempVal;
+        }
+        tempVal = 68 - tempVal;
+        tempVal /=1.36;
+        return (weatherVal.elementAt(weather-4) + tempVal);
     }
 
     public static void sendTextMessage(String phoneNumber, String text){
