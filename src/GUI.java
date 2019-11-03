@@ -78,7 +78,7 @@ public class GUI extends Application
         weatherImageView.setFitWidth( 125 );
         weatherImageView.setPreserveRatio(true);
         weatherImageGrid.add(weatherImageView, 0, 0 );
-        VBox vBox = new VBox(weather_label,weatherLabel,timeLabel,tempLabel);
+        VBox vBox = new VBox(weather_label,timeLabel,weatherLabel,tempLabel);
         HBox hBox = new HBox(vBox, weatherImageGrid);
 
 
