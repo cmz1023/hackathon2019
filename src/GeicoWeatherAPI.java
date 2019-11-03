@@ -20,10 +20,6 @@ import com.twilio.twiml.TwiMLException;
 
 public class GeicoWeatherAPI {
     static boolean isDayTime;
-    public static void main(String[] args) throws Exception{
-        //sendTextMessage("+14129999653","hi mom i sent this from my hackpsu project don't respond to this number lol");
-
-    }
     public static Vector<String>  collectWeatherData(String city){
         final HttpResponse<JsonNode> stresponse = Unirest.get("http://dataservice.accuweather.com/locations/v1/search")
                 .queryString("apikey","07vMDheK0m6yvGnpXEpnqvkVZhyCFxo2")

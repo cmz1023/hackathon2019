@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.paint.Color;
+import java.awt.*;
 import java.util.Vector;
 
 public class GUI extends Application
@@ -27,14 +28,13 @@ public class GUI extends Application
 
     // Weather condition labels
     Label weather_label = new Label();
-    //Label weather_conditions = new Label();
     //add weather image
     Image weatherImage;
     ImageView weatherImageView = new ImageView(weatherImage);
 
-    Label timeLabel = new Label("time");
-    Label tempLabel = new Label("temperature");
-    Label weatherLabel = new Label("weather");
+    Label timeLabel = new Label("");
+    Label tempLabel = new Label("");
+    Label weatherLabel = new Label("");
     Label playScoreLabel = new Label();
     Label driveAbilityLabel = new Label();
 
@@ -89,11 +89,6 @@ public class GUI extends Application
                 "\nenter your phone number and then click the button below.");
         alert_label.setFont(new Font("Arial",15));
         enter_phone_number = new TextField("");
-
-        //Button to send user input to Twilio API
-        //phone_number_data = new Button("Receive Weather Updates");
-        //phone_number_data.setOnAction( new Phone_Number_Data_Handler() );
-
         //HBox emails = new HBox(10, email, email_checked, enter_email);
         HBox phone = new HBox(10, enter_phone_number);
         VBox alerts = new VBox(10, alert_label, phone, phone_number_data);
@@ -168,7 +163,7 @@ public class GUI extends Application
     {
         @Override
         public void handle(ActionEvent event)
-        {//        VBox vBox = new VBox(weather_label,weatherLabel,timeLabel,tempLabel);
+        {
 
             String s = weather_label.getText() + "\n";
             s += weatherLabel.getText() + "\n";
@@ -214,13 +209,26 @@ public class GUI extends Application
             weatherImageView.setFitWidth(100);
             weatherImageView.setPreserveRatio(true);
             weatherImageGrid.add(weatherImageView, 0, 0 );
-            //weatherImageGrid.setPadding(Insets(15));
-            //actual temp, int weather
             playScore = GeicoWeatherAPI.calculatePlayability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-4);
-            playScoreLabel.setText(new Double(playScore).toString());
-            //actual temp, int weather
+            playScoreLabel.setText(new Integer((int) playScore).toString());
             driveability = GeicoWeatherAPI.calculateDrivability(new Double(weatherData.elementAt(2)),new Integer(weatherData.elementAt(3))-4);
-            drive_score.setText(new Double(driveability).toString());
+            drive_score.setText(new Integer((int) driveability).toString());
+            drive_score.setFont(new Font("Arial", 25));
+            playScoreLabel.setFont(new Font("Arial", 25));
+            if (new Integer(drive_score.getText()) <= 33){
+                drive_score.setTextFill(Color.web("#b50c00"));
+            }else if (new Integer(drive_score.getText()) <= 66){
+                drive_score.setTextFill(Color.web("#c4b616"));
+            }else{
+                drive_score.setTextFill(Color.web("#1d7d0e"));
+            }
+            if (new Integer(playScoreLabel.getText()) <= 33){
+                playScoreLabel.setTextFill(Color.web("#b50c00"));
+            }else if (new Integer(playScoreLabel.getText()) <= 66){
+                playScoreLabel.setTextFill(Color.web("#c4b616"));
+            }else{
+                playScoreLabel.setTextFill(Color.web("#1d7d0e"));
+            }
         }
     }
 }
